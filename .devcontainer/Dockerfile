@@ -23,6 +23,8 @@ RUN apk update && apk add \
   jq \
   vim \
   wget \
+  bash \
+  su-exec \
   && rm -rf /var/cache/apk/*
 
 ARG USERNAME=dev
@@ -63,4 +65,15 @@ ENV VISUAL=vim
 # Install Claude
 RUN npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
 
-USER dev
+# Switch back to root for firewall setup
+USER root
+
+# Set up network firewall scripts and log infrastructure
+COPY scripts/ /opt/scripts/
+COPY extra-whitelist.conf /opt/scripts/extra-whitelist.conf
+RUN chmod +x /opt/scripts/*.sh && \
+    touch /var/log/firewall.log /var/log/firewall-status.txt && \
+    chmod 644 /var/log/firewall.log /var/log/firewall-status.txt
+
+ENTRYPOINT ["/opt/scripts/entrypoint.sh"]
+CMD ["sleep", "infinity"]

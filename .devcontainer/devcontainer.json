@@ -7,6 +7,9 @@
       "CLAUDE_CODE_VERSION": "latest"
     }
   },
+  "runArgs": ["--cap-add=NET_ADMIN"],
+  "overrideCommand": false,
+  "remoteUser": "dev",
   "customizations": {
     "vscode": {
       "extensions": [
