@@ -1,0 +1,7 @@
+#!/bin/sh
+# Wrapper that runs git inside the island git-workspace Landlock sandbox.
+# Protects against compromised git hooks reading ~/.ssh keys or credentials.
+# SSH authentication still works via ssh-agent (socket path is in /tmp).
+#
+# To bypass the sandbox, use the full path: /usr/bin/git
+exec island run -p git-workspace -- /usr/bin/git "$@"

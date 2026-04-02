@@ -1,0 +1,7 @@
+# Profile for the Claude Code CLI.
+# Applied explicitly via the 'claude' shell alias (not auto-activated by CWD).
+#
+# workspace = true redirects XDG_CONFIG_HOME, XDG_DATA_HOME, XDG_CACHE_HOME,
+# and TMPDIR to island-managed paths, isolating Claude's config/history from
+# the real ~/.claude directory.
+workspace = true

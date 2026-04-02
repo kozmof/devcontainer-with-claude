@@ -1,0 +1,11 @@
+# Profile for git invocations inside /workspace.
+# Applied via the /usr/local/bin/git shim.
+#
+# Hooks spawned by git (pre-commit, post-merge, etc.) inherit Landlock
+# restrictions, preventing compromised hooks from reading SSH keys or
+# other sensitive files.
+
+workspace = false
+
+[[context]]
+when_beneath = "/workspace"

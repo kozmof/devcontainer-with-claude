@@ -1,0 +1,14 @@
+# Profile for npm invocations inside /workspace.
+# Applied via the /usr/local/bin/npm shim.
+#
+# workspace = false preserves the real XDG dirs so npm can reach ~/.config/npm.
+# NPM cache is redirected to /workspace/.npm-cache to avoid needing ~/.npm access.
+
+workspace = false
+
+[[context]]
+when_beneath = "/workspace"
+
+[[env]]
+name = "NPM_CONFIG_CACHE"
+literal = "/workspace/.npm-cache"

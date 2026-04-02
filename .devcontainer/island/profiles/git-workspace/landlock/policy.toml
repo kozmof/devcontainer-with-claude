@@ -1,0 +1,53 @@
+# Landlock policy for git and its child processes (hooks).
+#
+# Allows access to:
+#   - System binaries/libs                    (read + execute)
+#   - Safe pseudo-devices                     (read/write)
+#   - /etc, /proc/self, /proc/cpuinfo         (read only)
+#   - /tmp                                    (full — SSH_AUTH_SOCK lives here)
+#   - /workspace                              (full — git repos)
+#   - ~/.gitconfig                            (read — user identity)
+#
+# SSH authentication uses the ssh-agent socket in /tmp (SSH_AUTH_SOCK),
+# so private key files (~/.ssh/id_*) are intentionally excluded.
+#
+# Denies by omission:
+#   - ~/.ssh (key files), ~/.claude, ~/.gnupg, ~/.npmrc
+#   - /opt/scripts, /var/log
+
+abi = 6
+
+[[ruleset]]
+handled_access_fs = ["abi.all"]
+handled_access_net = ["abi.all"]
+scoped = ["abi.all"]
+
+# System binaries and libraries
+[[path_beneath]]
+allowed_access = ["abi.read_execute"]
+parent = ["/bin", "/lib", "/sbin", "/usr"]
+
+# Safe pseudo-devices
+[[path_beneath]]
+allowed_access = ["read_file", "write_file"]
+parent = ["/dev/full", "/dev/null", "/dev/random", "/dev/urandom", "/dev/zero"]
+
+# System configuration (read only)
+[[path_beneath]]
+allowed_access = ["read_dir", "read_file", "refer"]
+parent = ["/etc", "/proc/self", "/proc/cpuinfo"]
+
+# Ephemeral scratch space (SSH_AUTH_SOCK is a Unix socket under /tmp)
+[[path_beneath]]
+allowed_access = ["abi.all"]
+parent = ["/tmp"]
+
+# Workspace — git repositories live here
+[[path_beneath]]
+allowed_access = ["abi.all"]
+parent = ["/workspace"]
+
+# Git user identity (name, email, signing config)
+[[path_beneath]]
+allowed_access = ["read_file"]
+parent = ["/home/dev/.gitconfig"]

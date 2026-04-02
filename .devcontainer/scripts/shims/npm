@@ -1,0 +1,8 @@
+#!/bin/sh
+# Wrapper that runs npm inside the island npm-workspace Landlock sandbox.
+# Protects against malicious postinstall hooks reading ~/.ssh, ~/.claude, etc.
+# The real npm binary is at /usr/local/share/npm-global/bin/npm.
+#
+# To bypass the sandbox (e.g. for 'npm install -g'), use the full path:
+#   /usr/local/share/npm-global/bin/npm install -g <pkg>
+exec island run -p npm-workspace -- /usr/local/share/npm-global/bin/npm "$@"
