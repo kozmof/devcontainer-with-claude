@@ -24,7 +24,14 @@
     "vscode": {
       "extensions": [
         "anthropic.claude-code"
-      ]
+      ],
+      "settings": {
+        "workbench.colorCustomizations": {
+          "titleBar.activeBackground": "#2e2e2e",
+          "titleBar.activeForeground": "#ffffff",
+          "titleBar.inactiveBackground": "#141414"
+        }
+      }
     }
   },
   "containerEnv": {
