@@ -32,7 +32,6 @@ RUN apk update && apk add \
   iproute2 \
   bind-tools \
   jq \
-  vim \
   wget \
   bash \
   su-exec \
@@ -72,8 +71,8 @@ ENV NPM_CONFIG_PREFIX=/usr/local/share/npm-global
 ENV PATH=$PATH:/usr/local/share/npm-global/bin
 
 # Set the default editor and visual
-ENV EDITOR=vim
-ENV VISUAL=vim
+ENV EDITOR=vi
+ENV VISUAL=vi
 
 # Install npm itself into the npm-global prefix so the shim can find it at
 # /usr/local/share/npm-global/bin/npm, then install Claude Code.
