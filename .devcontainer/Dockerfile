@@ -57,9 +57,11 @@ ENV DEVCONTAINER=true
 
 # Create workspace and config directories and set permissions
 RUN mkdir -p /workspace /home/${USERNAME}/.claude /home/${USERNAME}/.config/npm && \
-  touch /home/${USERNAME}/.npmrc && \
   chown -R ${USERNAME}:${USERNAME} /workspace /home/${USERNAME}/.claude \
-    /home/${USERNAME}/.config /home/${USERNAME}/.npmrc
+    /home/${USERNAME}/.config
+
+# Copy .npmrc so the registry is configured before npm installs
+COPY --chown=${USERNAME}:${USERNAME} .npmrc /home/${USERNAME}/.npmrc
 
 WORKDIR /workspace
 

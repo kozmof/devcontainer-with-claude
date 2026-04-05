@@ -57,9 +57,8 @@ check_takumi_guard() {
     echo ""
     echo "==> Takumi Guard"
 
-    # Check the workspace .npmrc directly — npm config get registry only reflects
-    # project-level settings when run from the project root, not from this script's CWD.
-    local npmrc="/workspace/.npmrc"
+    # The registry is set in ~/.npmrc (copied from .devcontainer/.npmrc at build time).
+    local npmrc="$HOME/.npmrc"
     if grep -q "^registry=https://npm.flatt.tech/" "$npmrc" 2>/dev/null; then
         pass "npm registry configured: https://npm.flatt.tech/ (in $npmrc)"
     else
