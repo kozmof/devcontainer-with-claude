@@ -6,7 +6,8 @@
 # Allows access to:
 #   - System binaries/libs                    (read + execute)
 #   - Safe pseudo-devices                     (read/write)
-#   - /etc, /proc/self, /proc/cpuinfo         (read only)
+#   - /etc                                    (read + list)
+#   - /proc                                   (read files only, no dir listing)
 #   - /tmp                                    (full — includes ssh-agent socket)
 #   - /workspace                              (full — project files + npm cache)
 #   - ~/.npmrc                                (read — registry auth tokens)
@@ -36,7 +37,16 @@ parent = ["/dev/full", "/dev/null", "/dev/random", "/dev/urandom", "/dev/zero"]
 # System configuration (read only)
 [[path_beneath]]
 allowed_access = ["read_dir", "read_file", "refer"]
-parent = ["/etc", "/proc/self", "/proc/cpuinfo"]
+parent = ["/etc"]
+
+# /proc: read_file only (not read_dir) so Node.js child processes can open
+# /proc/self/stat etc. for memory usage, but postinstall hooks cannot list
+# /proc/ to enumerate running PIDs.
+# Note: /proc/self cannot be used here — Landlock resolves symlinks to the
+# island PID's inode at setup time, which doesn't cover child process inodes.
+[[path_beneath]]
+allowed_access = ["read_file"]
+parent = ["/proc"]
 
 # Ephemeral scratch space (also contains SSH_AUTH_SOCK if ssh-agent is running)
 [[path_beneath]]
