@@ -56,8 +56,9 @@ RUN SNIPPET="export PROMPT_COMMAND='history -a' && export HISTFILE=/commandhisto
 ENV DEVCONTAINER=true
 
 # Create workspace and config directories and set permissions
-RUN mkdir -p /workspace /home/${USERNAME}/.claude /home/${USERNAME}/.config/npm && \
-  chown -R ${USERNAME}:${USERNAME} /workspace /home/${USERNAME}/.claude \
+RUN mkdir -p /workspace /home/${USERNAME}/.claude /home/${USERNAME}/.codex \
+    /home/${USERNAME}/.config/npm && \
+  chown -R ${USERNAME}:${USERNAME} /workspace /home/${USERNAME}/.claude /home/${USERNAME}/.codex \
     /home/${USERNAME}/.config
 
 # Copy .npmrc so the registry is configured before npm installs

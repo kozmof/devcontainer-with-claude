@@ -3,3 +3,4 @@
 #   - XDG dirs are isolated (workspace = true) — config/history go to island-managed paths
 #   - No access to ~/.ssh, ~/.claude (real), ~/.gnupg, /opt/scripts, /var/log
 alias claude='island run -p claude-code -- /usr/local/share/npm-global/bin/claude'
+alias codex='island run -p codex -- /usr/local/share/npm-global/bin/codex'

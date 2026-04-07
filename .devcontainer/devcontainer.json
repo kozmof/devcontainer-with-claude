@@ -23,7 +23,8 @@
   "customizations": {
     "vscode": {
       "extensions": [
-        "anthropic.claude-code"
+        "anthropic.claude-code",
+        "openai.chatgpt"
       ],
       "settings": {
         "workbench.colorCustomizations": {

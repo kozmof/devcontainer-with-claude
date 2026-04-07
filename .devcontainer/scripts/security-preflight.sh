@@ -106,7 +106,7 @@ check_island() {
         profile_base="/workspace/.devcontainer/island/profiles"
     fi
 
-    for profile in claude-code npm-workspace pnpm-workspace git-workspace; do
+    for profile in claude-code codex npm-workspace pnpm-workspace git-workspace; do
         if [[ -d "$profile_base/$profile" ]]; then
             pass "profile present: $profile"
         else
@@ -145,6 +145,14 @@ check_island() {
         pass "claude alias uses island"
     else
         fail "claude alias not found or does not reference island (checked $aliases_file and ~/.bashrc)"
+    fi
+
+    # codex alias
+    if grep -q "island run -p codex" "$aliases_file" 2>/dev/null || \
+       grep -q "island run -p codex" "$HOME/.bashrc" 2>/dev/null; then
+        pass "codex alias uses island"
+    else
+        fail "codex alias not found or does not reference island (checked $aliases_file and ~/.bashrc)"
     fi
 
     # Sandbox enforcement tests.
@@ -198,6 +206,14 @@ check_island() {
     sandbox_blocks claude-code ls /var/log
     sandbox_allows claude-code ls /workspace
     sandbox_allows claude-code ls /tmp
+
+    # codex: isolates Codex CLI from sensitive config and firewall scripts
+    # Blocked: /opt/scripts, /var/log, /home/dev/.npmrc
+    # Allowed: /workspace (user projects), /tmp
+    sandbox_blocks codex ls /opt/scripts
+    sandbox_blocks codex ls /var/log
+    sandbox_allows codex ls /workspace
+    sandbox_allows codex ls /tmp
 }
 
 # ---------------------------------------------------------------------------

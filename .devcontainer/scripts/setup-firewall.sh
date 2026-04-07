@@ -12,9 +12,14 @@ declare -A IP_TO_DOMAIN
 
 SERVICE_DOMAINS=(
     "api.anthropic.com"
+    "api.openai.com"
+    "auth.openai.com"
+    "chat.openai.com"
+    "chatgpt.com"
     "statsig.anthropic.com"
     "statsig.com"
     "sentry.io"
+    "ab.chatgpt.com"
     "registry.npmjs.org"
     "marketplace.visualstudio.com"
     "vscode.blob.core.windows.net"
