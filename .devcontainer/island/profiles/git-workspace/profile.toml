@@ -1,9 +1,18 @@
 # Profile for git invocations inside /workspace.
-# Applied via the /usr/local/bin/git shim.
+# Applied via the /usr/local/bin/git shim whenever git is run beneath /workspace.
 #
 # Hooks spawned by git (pre-commit, post-merge, etc.) inherit Landlock
 # restrictions, preventing compromised hooks from reading SSH keys or
 # other sensitive files.
+#
+# workspace = false keeps the real XDG dirs intact.  git needs ~/.gitconfig for
+# user identity (name, email, signing config) and that file is allowed explicitly
+# in the Landlock policy.  Redirecting XDG dirs would break git's config lookup.
+#
+# Bypass risk: using /usr/bin/git directly skips this sub-sandbox.  The outer
+# Claude Code Landlock domain still restricts what hooks can reach, but hook
+# access to ~/.gitconfig, /tmp, and /workspace is unrestricted within that domain.
+# See scripts/shims/git for the full bypass trade-off documentation.
 
 workspace = false
 

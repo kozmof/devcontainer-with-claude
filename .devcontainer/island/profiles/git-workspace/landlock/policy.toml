@@ -14,6 +14,15 @@
 # Denies by omission:
 #   - ~/.ssh (key files), ~/.claude, ~/.gnupg, ~/.npmrc
 #   - /opt/scripts, /var/log
+#
+# IMPORTANT — bypass behaviour:
+#   This policy is only applied when git is invoked via the /usr/local/bin/git
+#   shim.  Using /usr/bin/git directly skips island entirely for the git process;
+#   the parent Claude Code Landlock domain still applies, but git hooks will have
+#   unrestricted access to everything that domain allows (e.g. /tmp, /workspace,
+#   ~/.gitconfig).  PATH ordering (/usr/local/bin before /usr/bin) is the only
+#   mechanism that enforces use of the shim — do not reorder PATH such that
+#   /usr/bin appears first.
 
 abi = 6
 

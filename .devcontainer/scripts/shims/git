@@ -3,5 +3,13 @@
 # Protects against compromised git hooks reading ~/.ssh keys or credentials.
 # SSH authentication still works via ssh-agent (socket path is in /tmp).
 #
-# To bypass the sandbox, use the full path: /usr/bin/git
+# Security note — intentional bypass path:
+#   /usr/bin/git runs git WITHOUT the git-workspace Landlock sub-sandbox.
+#   This means git hooks (pre-commit, post-merge, etc.) executed via /usr/bin/git
+#   can access any path the outer Claude Code sandbox allows, including ~/.gitconfig
+#   and any secrets within /tmp or /workspace.  The outer Claude Code sandbox still
+#   applies; /var/log, /opt/scripts, ~/.ssh, and ~/.claude remain blocked.
+#
+#   Use /usr/bin/git only when the git-workspace profile causes a legitimate
+#   failure (e.g. complex worktree operations).  Do not use it with untrusted repos.
 exec island run -p git-workspace -- /usr/bin/git "$@"

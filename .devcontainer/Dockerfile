@@ -89,7 +89,12 @@ USER root
 # Island profiles (Landlock sandbox policies per-tool)
 COPY --chown=${USERNAME}:${USERNAME} island/profiles/ /home/${USERNAME}/.config/island/profiles/
 
-# Binary shims: wrap npm and git with island sandboxing
+# Binary shims: wrap npm, git, pnpm, claude, and codex with island sandboxing.
+# These shims are installed to /usr/local/bin/, which must appear before /usr/bin/
+# in PATH so that `git`, `npm`, etc. resolve to the shims rather than the real
+# binaries.  Reordering PATH to put /usr/bin first would silently bypass the
+# sandbox for those tools — the git-workspace and npm-workspace Landlock policies
+# would no longer apply to hooks and postinstall scripts.
 COPY scripts/shims/ /usr/local/bin/
 RUN chmod +x /usr/local/bin/npm /usr/local/bin/git /usr/local/bin/pnpm /usr/local/bin/claude /usr/local/bin/codex
 
