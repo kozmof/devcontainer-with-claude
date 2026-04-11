@@ -81,7 +81,8 @@ ENV VISUAL=vi
 # /usr/local/share/npm-global/bin/npm, then install Claude Code.
 # Both installs happen before the npm shim is in place, so they run unsandboxed.
 RUN npm install -g npm && \
-    npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION}
+    npm install -g @anthropic-ai/claude-code@${CLAUDE_CODE_VERSION} && \
+    npm install -g @openai/codex
 
 # Switch back to root to deploy island profiles, shims, and shell aliases
 USER root

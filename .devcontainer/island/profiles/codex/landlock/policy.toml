@@ -5,9 +5,12 @@
 #   - Safe pseudo-devices                                  (read/write)
 #   - System config under /etc and /proc/self              (read only)
 #   - /tmp and /workspace                                  (full access)
+#   - ~/.codex                                             (full access — codex hardcodes
+#                                                           ~/.codex/tmp/arg0/ for process
+#                                                           renaming; does not use TMPDIR)
 #
 # Denies by omission (Landlock default-deny):
-#   - ~/.ssh, ~/.codex, ~/.gnupg, ~/.npmrc
+#   - ~/.ssh, ~/.gnupg, ~/.npmrc
 #   - /opt/scripts (container firewall scripts)
 #   - /var/log (firewall audit logs)
 #
@@ -45,3 +48,8 @@ parent = ["/tmp"]
 [[path_beneath]]
 allowed_access = ["abi.all"]
 parent = ["/workspace"]
+
+# Codex home — needed for ~/.codex/tmp/arg0/ (process renaming) and config
+[[path_beneath]]
+allowed_access = ["abi.all"]
+parent = ["/home/dev/.codex"]
