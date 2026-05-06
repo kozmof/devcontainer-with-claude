@@ -12,3 +12,7 @@ when_beneath = "/workspace"
 [[env]]
 name = "GOCACHE"
 literal = "/workspace/.go-cache"
+
+[[env]]
+name = "GOTELEMETRY"
+literal = "off"

@@ -65,6 +65,12 @@ parent = ["/workspace"]
 allowed_access = ["abi.all"]
 parent = ["/home/dev/go"]
 
+# Go telemetry mode — read-only so the sandboxed go shim can see that
+# telemetry is disabled instead of falling back to noisy local telemetry.
+[[path_beneath]]
+allowed_access = ["read_file"]
+parent = ["/home/dev/.config/go/telemetry/mode"]
+
 # Outbound HTTPS for Go module proxy (proxy.golang.org, sum.golang.org, etc.)
 # The iptables firewall enforces the domain allowlist; Landlock only
 # needs to permit the port so connect() is not blocked before iptables.
