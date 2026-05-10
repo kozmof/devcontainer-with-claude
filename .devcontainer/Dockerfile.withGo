@@ -66,8 +66,10 @@ ENV DEVCONTAINER=true
 
 # Create workspace and config directories and set permissions
 RUN mkdir -p /workspace /home/${USERNAME}/.claude /home/${USERNAME}/.codex \
-    /home/${USERNAME}/.config/npm /home/${USERNAME}/.cache/go-build \
+    /home/${USERNAME}/.config/npm /home/${USERNAME}/.config/go/telemetry \
+    /home/${USERNAME}/.cache/go-build \
     /home/${USERNAME}/go/bin /home/${USERNAME}/go/pkg && \
+  echo "off" > /home/${USERNAME}/.config/go/telemetry/mode && \
   chown -R ${USERNAME}:${USERNAME} /workspace /home/${USERNAME}/.claude /home/${USERNAME}/.codex \
     /home/${USERNAME}/.config /home/${USERNAME}/.cache /home/${USERNAME}/go
 
